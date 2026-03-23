@@ -1384,7 +1384,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <Router basename="/TestXIV">
+    <Router>
       <ScrollToTop />
       <div className="min-h-screen flex flex-col font-sans text-gray-900 selection:bg-accent-500 selection:text-white">
         <Navbar />
