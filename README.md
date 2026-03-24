@@ -1,20 +1,77 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# XIV Forum of Partial Differential Equations (XIV FPDE)
 
-# Run and deploy your AI Studio app
+📍 Będlewo Conference Center, Poland  
+📅 13–19 September 2026  
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/12f10461-2156-4765-b2b4-97406c37049b
+## Overview
 
-## Run Locally
+The **XIV Forum of Partial Differential Equations (FPDE)** is an international conference bringing together researchers working on theoretical and applied aspects of partial differential equations.
 
-**Prerequisites:**  Node.js
+The meeting continues the long-standing tradition of the FPDE series, providing a platform for presenting recent advances and fostering collaboration within the PDE community.
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Topics
+
+The conference will cover a broad range of topics, including:
+
+- Elliptic and parabolic equations  
+- Nonlinear PDEs  
+- Reaction–diffusion systems  
+- Calculus of variations  
+- Mathematical biology  
+- Numerical methods for PDEs  
+- Applied analysis  
+
+---
+
+## Venue
+
+The conference will take place at the  
+**Będlewo Conference Center** (Polish Academy of Sciences),  
+located near Poznań, Poland.
+
+---
+
+## Structure
+
+The scientific program will include:
+
+- Invited plenary lectures  
+- Mini-symposia  
+- Contributed talks  
+- Poster sessions  
+
+---
+
+## Registration
+
+Registration details, deadlines, and submission guidelines are available on the conference website.
+
+---
+
+## Website
+
+👉 https://xivfpde.com  
+(or your final domain)
+
+---
+
+## Organizers
+
+- Institute of Mathematics, Polish Academy of Sciences (IMPAN)  
+- Banach Center  
+
+---
+
+## Contact
+
+📧 xivforum@impan.pl  
+
+---
+
+## License
+
+This repository contains the source code for the conference website.
