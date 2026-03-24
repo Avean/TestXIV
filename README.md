@@ -40,7 +40,6 @@ located near Poznań, Poland.
 The scientific program will include:
 
 - Invited plenary lectures  
-- Mini-symposia  
 - Contributed talks  
 - Poster sessions  
 
@@ -62,7 +61,8 @@ Registration details, deadlines, and submission guidelines are available on the 
 ## Organizers
 
 - Institute of Mathematics, Polish Academy of Sciences (IMPAN)  
-- Banach Center  
+- University of Warsaw
+- Excellence initiative - Research university  
 
 ---
 
