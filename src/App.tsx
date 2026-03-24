@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Calendar, MapPin, Mail, ExternalLink, Menu, X, 
@@ -1499,7 +1499,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <Router basename="/TestXIV">
+    <Router>
       <ScrollToTop />
       <div className="min-h-screen flex flex-col font-sans text-gray-900 selection:bg-accent-500 selection:text-white relative">
         {/* Globalne stałe tło z efektem paralaksy dla całej aplikacji */}
