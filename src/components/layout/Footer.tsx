@@ -10,9 +10,9 @@ export const Footer = () => {
         <div className="text-white font-serif text-xl font-bold tracking-wider">
           {siteConfig.name}
         </div>
-        {/* <p className="text-gray-300 text-sm text-center md:text-left">
+        <p className="text-gray-300 text-sm text-center md:text-left">
           {siteConfig.copyright}
-        </p> */}
+        </p>
         <div className="text-gray-300 text-sm">
           Last update: {siteConfig.lastUpdate}
         </div>

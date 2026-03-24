@@ -5,7 +5,7 @@ export const siteConfig = {
   location: "Będlewo Conference Center, Poland",
   contactEmail: "xivforum@impan.pl",
   lastUpdate: "March 2026",
-  copyright: "© 2026 XIV Forum of Partial Differential Equations. All rights reserved.",
+  copyright: "2026 XIV Forum of Partial Differential Equations",
   
   // Layout & UI
   navLinks: [
