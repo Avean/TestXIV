@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Calendar, MapPin, Mail, ExternalLink, Menu, X, 
@@ -12,7 +12,7 @@ import {
 const sponsors = [
   { name: "IM PAN", logo: "https://impan.pl/images/logo_impan.png", url: "https://www.impan.pl/" },
   { name: "University\nof Warsaw", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/LOGO_IKP_%28cropped%29.png", url: "https://www.uw.edu.pl/" },
-  { name: "Excellence Initiative\nResearch University", logo: "https://inicjatywadoskonalosci.uw.edu.pl/wp-content/uploads/sites/11/2021/07/logotyp-IDUB-EN-poziom-kolor.svg", url: "https://inicjatywadoskonalosci.uw.edu.pl/" }
+  { name: "Research\nUniversity", logo: "https://inicjatywadoskonalosci.uw.edu.pl/wp-content/uploads/sites/11/2021/07/logotyp-IDUB-EN-poziom-kolor.svg", url: "https://inicjatywadoskonalosci.uw.edu.pl/" }
   // { name: "Banach\nCenter", logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbVct31q5jxsD7157PDnkW1nP2Wcgd0_ADcw&s", url: "https://www.impan.pl/en/activities/banach-center" }
 ];
 
@@ -21,6 +21,28 @@ const partners = [
 ];
 
 // --- Layout Components ---
+
+const HeroBackground = ({ className = "" }: { className?: string }) => (
+  <div className={`absolute inset-0 overflow-hidden pointer-events-none select-none z-0 ${className}`}>
+    <div className="absolute top-0 left-0 w-full h-screen">
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2070&auto=format&fit=crop")' }}
+      >
+        <div className="absolute inset-0 bg-primary-900/80 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/50 via-transparent to-primary-900/90" />
+      </div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
+        <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="absolute top-[15%] left-[10%] text-white/15 font-serif italic text-3xl md:text-5xl transform -rotate-12">∂u/∂t = αΔu</motion.div>
+        <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute top-[60%] left-[5%] text-white/10 font-serif italic text-4xl md:text-6xl transform rotate-6">∂²u/∂t² = c²Δu</motion.div>
+        <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute top-[25%] right-[5%] md:right-[10%] text-white/15 font-serif italic text-2xl md:text-4xl transform rotate-12">∂ₜu + (u⋅∇)u = -∇p + νΔu</motion.div>
+        <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute top-[70%] right-[10%] md:right-[15%] text-white/10 font-serif italic text-3xl md:text-5xl transform -rotate-6">∇⋅u = 0</motion.div>
+        <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 3 }} className="absolute top-[45%] left-[30%] md:left-[40%] text-white/5 font-serif italic text-5xl md:text-7xl">iℏ∂ₜψ = -ℏ²/2m Δψ + Vψ</motion.div>
+        <motion.div animate={{ y: [0, 12, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-[15%] left-[30%] text-white/15 font-serif italic text-3xl md:text-5xl transform rotate-3">-Δu = λu</motion.div>
+      </div>
+    </div>
+  </div>
+);
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,25 +60,19 @@ const Navbar = () => {
 
   // Always transparent at the top, solid when scrolled
   const headerClass = isScrolled 
-    ? 'bg-white/95 backdrop-blur-md shadow-sm' 
+    ? 'shadow-lg' 
     : 'bg-transparent';
 
   const navPadding = isScrolled ? 'py-3' : 'py-5';
 
-  const textClass = isScrolled ? 'text-primary-900' : 'text-white';
-  const linkClass = isScrolled ? 'text-gray-600 hover:text-accent-600' : 'text-gray-200 hover:text-white';
+  const textClass = 'text-white';
+  const linkClass = 'text-gray-200 hover:text-white';
 
-  const mobileMenuBg = isScrolled 
-    ? 'bg-white border-gray-100 shadow-2xl' 
-    : 'bg-primary-900/95 backdrop-blur-md border-white/10 shadow-2xl';
+  const mobileMenuBg = 'bg-primary-900/95 backdrop-blur-md border-white/10 shadow-2xl';
     
-  const mobileLinkClass = isScrolled 
-    ? 'text-gray-700 hover:text-accent-600 hover:bg-gray-50' 
-    : 'text-gray-200 hover:text-accent-400 hover:bg-white/5';
+  const mobileLinkClass = 'text-gray-200 hover:text-accent-400 hover:bg-white/5';
     
-  const mobileActiveLinkClass = isScrolled
-    ? 'text-accent-600 bg-accent-50'
-    : 'text-accent-400 bg-white/10';
+  const mobileActiveLinkClass = 'text-accent-400 bg-white/10';
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -70,6 +86,7 @@ const Navbar = () => {
   return (
     <>
       <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${headerClass}`}>
+        <HeroBackground className={`transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-0'}`} />
         <div className={`max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center transition-all duration-300 ${navPadding} relative z-[40]`}>
           <div className="flex items-center gap-3 lg:gap-6">
             {!isHome && (
@@ -79,7 +96,7 @@ const Navbar = () => {
                     <img 
                       src={sponsor.logo} 
                       alt={sponsor.name.replace('\n', ' ')} 
-                      className={`h-8 lg:h-9 w-auto object-contain shrink-0 transition-all duration-300 hover:scale-105 ${!isScrolled ? 'brightness-0 invert opacity-80 hover:opacity-100' : 'hover:opacity-80'}`} 
+                      className={`h-8 lg:h-9 w-auto object-contain shrink-0 transition-all duration-300 hover:scale-105 brightness-0 invert opacity-80 hover:opacity-100`} 
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                       }}
@@ -100,7 +117,7 @@ const Navbar = () => {
                 key={link.name} 
                 to={link.href}
                 className={`text-sm font-medium tracking-wide uppercase transition-colors ${
-                  location.pathname === link.href ? 'text-accent-600' : linkClass
+                  location.pathname === link.href ? 'text-accent-400' : linkClass
                 }`}
               >
                 {link.name}
@@ -179,14 +196,16 @@ const Footer = () => {
 };
 
 const PageHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-  <div className="bg-primary-900 pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-center">
+  <div className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8 text-center overflow-hidden">
+    <HeroBackground />
     <motion.div
+      className="relative z-10"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <h1 className="text-4xl md:text-5xl font-serif text-white mb-4">{title}</h1>
-      {subtitle && <p className="text-accent-500 text-lg">{subtitle}</p>}
+      {subtitle && <p className="text-accent-400 text-lg">{subtitle}</p>}
       <div className="w-16 h-1 bg-accent-500 mx-auto mt-8" />
     </motion.div>
   </div>
@@ -250,7 +269,43 @@ const CountdownTimer = () => {
   );
 };
 
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
+
+function CropBox({ src, alt = "", a, b, c, d }) {
+  const width = c - a;
+  const height = d - b;
+
+  return (
+    <div className="absolute inset-0">
+      <img
+        src={src}
+        alt={alt}
+        className="absolute max-w-none"
+        style={{
+          width: `${10000 / width}%`,
+          height: `${10000 / height}%`,
+          left: `-${(a / width) * 100}%`,
+          top: `-${(b / height) * 100}%`,
+        }}
+      />
+    </div>
+  );
+}
+
+
 const HomePage = () => {
+  const isMobile = useIsMobile();
+  
   const invitedSpeakers = [
     { name: "Iwona Chlebicka", affiliation: "University of Warsaw, Poland", url: "https://www.mimuw.edu.pl/~ichlebicka/", image: "", imagePosition: "center 5%" },
     { name: "Aleksander Ćwiszewski", affiliation: "Nicolaus Copernicus University, Poland", url: "https://www.mat.umk.pl/knam/pracownicy/?id=7100700", image: "", imagePosition: "center" },
@@ -272,25 +327,9 @@ const HomePage = () => {
   ];
 
   return (
-    <main>
+    <main className="relative">
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2070&auto=format&fit=crop")' }}
-        >
-          <div className="absolute inset-0 bg-primary-900/80 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary-900/50 via-transparent to-primary-900/90" />
-        </div>
-
-        {/* Floating PDE Formulas Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
-          <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="absolute top-[15%] left-[10%] text-white/15 font-serif italic text-3xl md:text-5xl transform -rotate-12">∂u/∂t = αΔu</motion.div>
-          <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="absolute top-[60%] left-[5%] text-white/10 font-serif italic text-4xl md:text-6xl transform rotate-6">∂²u/∂t² = c²Δu</motion.div>
-          <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="absolute top-[25%] right-[5%] md:right-[10%] text-white/15 font-serif italic text-2xl md:text-4xl transform rotate-12">∂ₜu + (u⋅∇)u = -∇p + νΔu</motion.div>
-          <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="absolute top-[70%] right-[10%] md:right-[15%] text-white/10 font-serif italic text-3xl md:text-5xl transform -rotate-6">∇⋅u = 0</motion.div>
-          <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 3 }} className="absolute top-[45%] left-[30%] md:left-[40%] text-white/5 font-serif italic text-5xl md:text-7xl">iℏ∂ₜψ = -ℏ²/2m Δψ + Vψ</motion.div>
-          <motion.div animate={{ y: [0, 12, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="absolute bottom-[15%] left-[30%] text-white/15 font-serif italic text-3xl md:text-5xl transform rotate-3">-Δu = λu</motion.div>
-        </div>
+        <HeroBackground />
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -330,8 +369,14 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      
+
+      <section className="py-24 relative overflow-hidden">
+        {/* Nakładka rozjaśniająca (85% bieli + lekkie rozmycie), aby tekst był idealnie czytelny */}
+        <div className="absolute inset-0 z-0 bg-white/85 backdrop-blur-[2px]" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -359,17 +404,41 @@ const HomePage = () => {
               transition={{ duration: 0.6 }}
               className="relative"
             >
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Abstract colorful smoke" 
+              <div 
+                className="aspect-[4/3] rounded-3xl overflow-hidden"
+                style={{
+                  // Mocne rozmycie na wszystkich 4 krawędziach (góra, dół, lewo, prawo)
+                  maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)',
+                  maskComposite: 'intersect',
+                  WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)',
+                  WebkitMaskComposite: 'source-in'
+                }}
+              >
+                { <img 
+                  src="https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/502464674_1129662912302205_1360854566771377972_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2a1932&_nc_ohc=2VSXw59k1AQQ7kNvwGXWBcj&_nc_oc=AdrTxIMvYwP32SzxmHWf9TKnojtKyomFREJkU3Esb8oFrQ_N6qt7ilVzCu-h3_RTw34&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=T8pZ-h-LXJxRRFpXYn8RAw&_nc_ss=7a32e&oh=00_AfzSNrp4PGsOeVmb8onA3tUMZSRgj0bB1sR_euTppwUKHA&oe=69C844B6" 
+                  alt="Będlewo Palace" 
                   className="w-full h-full object-cover"
+                  style={{ 
+                    // Parametry do przesuwania i zoomowania zdjęcia:
+                    objectPosition: '20% 50%', // Zmień na np. '50% 30%' aby przesunąć w górę/dół
+                    // transform: 'scale(1.2)',  // Zmień na np. 'scale(1.0)' lub 'scale(1.3)' aby oddalić/przybliżyć
+                  }}
                   referrerPolicy="no-referrer"
-                />
+                /> 
+                // <CropBox
+                //   src="https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/502464674_1129662912302205_1360854566771377972_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2a1932&_nc_ohc=2VSXw59k1AQQ7kNvwGXWBcj&_nc_oc=AdrTxIMvYwP32SzxmHWf9TKnojtKyomFREJkU3Esb8oFrQ_N6qt7ilVzCu-h3_RTw34&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=T8pZ-h-LXJxRRFpXYn8RAw&_nc_ss=7a32e&oh=00_AfzSNrp4PGsOeVmb8onA3tUMZSRgj0bB1sR_euTppwUKHA&oe=69C844B6"
+                //   alt="Będlewo Palace"
+                //   a={0}
+                //   b={15}
+                //   c={100}
+                //   d={100}
+                // />              
+                }
+                
               </div>
-              <div className="absolute -bottom-8 -left-8 bg-primary-900 text-white p-8 rounded-2xl shadow-xl hidden sm:block z-10">
-                <p className="text-4xl font-serif font-bold text-accent-500 mb-1">14th</p>
-                <p className="text-sm uppercase tracking-wider opacity-80">Edition</p>
+              <div className="absolute -bottom-4 -left-4 sm:-bottom-8 sm:-left-8 bg-primary-900 text-white p-6 sm:p-8 rounded-2xl shadow-2xl z-10 border border-white/10 backdrop-blur-sm">
+                <p className="text-3xl sm:text-4xl font-serif font-bold text-accent-500 mb-1">14th</p>
+                <p className="text-xs sm:text-sm uppercase tracking-wider opacity-80">Edition</p>
               </div>
             </motion.div>
           </div>
@@ -385,8 +454,11 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 relative overflow-hidden">
+        {/* Nakładka lekko szara (90% szarości + rozmycie), odróżnia się od sekcji wyżej */}
+        <div className="absolute inset-0 z-0 bg-gray-50/90 backdrop-blur-[3px]" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -399,28 +471,42 @@ const HomePage = () => {
             </motion.div>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-6">
+          <motion.div 
+            className="flex flex-wrap justify-center gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.05
+                }
+              }
+            }}
+          >
             {invitedSpeakers.map((speaker, idx) => (
               <motion.div
                 key={idx}
                 className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05, duration: 0.5 }}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                }}
               >
                 <a 
                   href={speaker.url !== "#" ? speaker.url : undefined}
                   target={speaker.url !== "#" ? "_blank" : undefined}
                   rel={speaker.url !== "#" ? "noreferrer" : undefined}
-                  className={`relative block h-full bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all duration-300 ${speaker.url !== "#" ? "hover:-translate-y-1 hover:shadow-lg hover:border-accent-300 cursor-pointer" : ""}`}
+                  className={`relative block h-full bg-white p-5 rounded-xl shadow-sm border border-gray-100 transition-all duration-300 group ${speaker.url !== "#" ? "hover:-translate-y-1 hover:shadow-lg hover:border-accent-300 cursor-pointer" : ""}`}
                 >
                   {speaker.url !== "#" && (
-                    <ExternalLink size={14} className="absolute top-3 right-3 text-gray-300" />
+                    <ExternalLink size={14} className="absolute top-3 right-3 text-gray-300 group-hover:text-accent-500 transition-colors" />
                   )}
                   <div className="flex items-center justify-between gap-4 h-full">
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-lg font-serif font-bold text-primary-900 mb-1 leading-tight pr-2">{speaker.name}</h4>
+                      <h4 className="text-lg font-serif font-bold text-primary-900 mb-1 leading-tight pr-2 group-hover:text-accent-600 transition-colors">{speaker.name}</h4>
                       <p className="text-gray-600 text-sm leading-snug">{speaker.affiliation}</p>
                     </div>
                     <div className="w-16 h-16 rounded-full overflow-hidden bg-primary-50 border-2 border-primary-100 flex items-center justify-center shrink-0">
@@ -439,148 +525,124 @@ const HomePage = () => {
                 </a>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 relative overflow-hidden">
+        {/* Nakładka biała (90% bieli + rozmycie) */}
+        <div className="absolute inset-0 z-0 bg-white/90 backdrop-blur-[2px]" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <div>
               <h2 className="text-4xl font-serif text-primary-900 mb-4">Important Information</h2>
               <div className="w-16 h-1 bg-accent-500 mx-auto" />
-            </motion.div>
+            </div>
           </div>
           
           <div className="flex flex-wrap justify-center gap-8">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)] bg-gray-50 p-8 rounded-2xl text-center border border-gray-100"
+            <div 
+              className="w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)] bg-white/95 backdrop-blur-sm shadow-xl p-8 rounded-2xl text-center border border-white/50"
             >
               <Calendar size={32} className="mx-auto text-accent-500 mb-4" />
               <h4 className="text-lg font-serif font-bold text-primary-900 mb-2">Dates</h4>
               <p className="text-gray-600">13 – 19 September 2026</p>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)] bg-gray-50 p-8 rounded-2xl text-center border border-gray-100"
+            <div 
+              className="w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)] bg-white/95 backdrop-blur-sm shadow-xl p-8 rounded-2xl text-center border border-white/50 flex flex-col items-center"
             >
               <MapPin size={32} className="mx-auto text-accent-500 mb-4" />
               <h4 className="text-lg font-serif font-bold text-primary-900 mb-2">Location</h4>
-              <p className="text-gray-600">Będlewo Conference Center, Poland</p>
-            </motion.div>
+              <p className="text-gray-600 mb-4">Będlewo Conference Center, Poland</p>
+              <a 
+                href="https://www.google.com/maps/place/Pa%C5%82ac+Potockich+B%C4%99dlewo/@52.2357476,16.7268353,17z/data=!4m9!3m8!1s0x47044cfea71ce475:0x981c4c654fa2c08c!5m2!4m1!1i2!8m2!3d52.2357443!4d16.7294102!16s%2Fg%2F121qyrzx?entry=ttu&g_ep=EgoyMDI2MDIwNC4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-600 hover:text-accent-700 hover:underline mt-auto"
+              >
+                View on the map <ExternalLink size={14} />
+              </a>
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)] bg-gray-50 p-8 rounded-2xl text-center border border-gray-100"
+            <div 
+              className="w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)] bg-white/95 backdrop-blur-sm shadow-xl p-8 rounded-2xl text-center border border-white/50"
             >
               <Clock size={32} className="mx-auto text-accent-500 mb-4" />
               <h4 className="text-lg font-serif font-bold text-primary-900 mb-2">Deadlines</h4>
               <div className="text-gray-600 space-y-1">
-                <p><span className="font-medium">Registration:</span> TBA</p>
-                <p><span className="font-medium">Abstracts:</span> TBA</p>
+                <p><span className="font-medium text-gray-900">Registration:</span> TBA</p>
+                <p><span className="font-medium text-gray-900">Abstracts:</span> TBA</p>
               </div>
-            </motion.div>
+            </div>
             
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)] bg-gray-50 p-8 rounded-2xl text-center border border-gray-100 flex flex-col items-center justify-center"
+            <div 
+              className="w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)] bg-white/95 backdrop-blur-sm shadow-xl p-8 rounded-2xl text-center border border-white/50 flex flex-col items-center justify-center"
             >
               <Mail size={32} className="mx-auto text-accent-500 mb-4" />
               <h4 className="text-lg font-serif font-bold text-primary-900 mb-2">Contact</h4>
               <div className="text-gray-600 space-y-1 text-sm">
-                <p><span className="font-medium">Email:</span> <a href="mailto:xivforum@impan.pl" className="text-accent-600 hover:text-accent-700 hover:underline transition-colors">xivforum@impan.pl</a></p>
-                <p><span className="font-medium">Organizers:</span> J.&nbsp;Mederski, B.&nbsp;Bieganowski, S.&nbsp;Cygan</p>
+                <p><span className="font-medium text-gray-900">Email:</span> <a href="mailto:xivforum@impan.pl" className="text-accent-600 hover:text-accent-700 hover:underline transition-colors">xivforum@impan.pl</a></p>
+                <p><span className="font-medium text-gray-900">Organizers:</span> J.&nbsp;Mederski, B.&nbsp;Bieganowski, S.&nbsp;Cygan</p>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           <div className="mt-20 pt-12 border-t border-gray-100 mb-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <div>
               <h3 className="text-2xl font-serif text-primary-900">Related Events</h3>
-            </motion.div>
+            </div>
           </div>
           
           <div className="flex flex-wrap justify-center gap-4">
-            <motion.a
+            <a
               href="https://panda2026.pwr.edu.pl/"
               target="_blank"
               rel="noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="w-full md:w-[calc(33.333%-11px)] block p-5 rounded-xl border border-gray-100 bg-gray-50 hover:-translate-y-1 hover:shadow-lg hover:border-accent-300 hover:bg-white transition-all duration-300 group"
+              className="w-full md:w-[calc(33.333%-11px)] block p-5 rounded-xl border border-white/50 shadow-md bg-white/95 backdrop-blur-sm hover:-translate-y-1 hover:shadow-xl hover:border-accent-300 hover:bg-white transition-all duration-300 group"
             >
               <h4 className="text-lg font-serif font-bold text-primary-800 mb-2 group-hover:text-accent-600 transition-colors">Probability and Analysis 2026</h4>
               <p className="text-sm text-gray-500 flex items-center gap-2">
                 <Calendar size={14} className="text-gray-400" />
                 11 – 15 May 2026, Będlewo
               </p>
-            </motion.a>
+            </a>
             
-            <motion.a
+            <a
               href="https://sites.google.com/impan.pl/ntepde2026"
               target="_blank"
               rel="noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="w-full md:w-[calc(33.333%-11px)] block p-5 rounded-xl border border-gray-100 bg-gray-50 hover:-translate-y-1 hover:shadow-lg hover:border-accent-300 hover:bg-white transition-all duration-300 group"
+              className="w-full md:w-[calc(33.333%-11px)] block p-5 rounded-xl border border-white/50 shadow-md bg-white/95 backdrop-blur-sm hover:-translate-y-1 hover:shadow-xl hover:border-accent-300 hover:bg-white transition-all duration-300 group"
             >
               <h4 className="text-lg font-serif font-bold text-primary-800 mb-2 group-hover:text-accent-600 transition-colors">New trends in elliptic PDEs</h4>
               <p className="text-sm text-gray-500 flex items-center gap-2">
                 <Calendar size={14} className="text-gray-400" />
                 13 – 17 July 2026, Będlewo
               </p>
-            </motion.a>
+            </a>
 
-            <motion.a
+            <a
               href="http://somachi-ptm.pwr.edu.pl/"
               target="_blank"
               rel="noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="w-full md:w-[calc(33.333%-11px)] block p-5 rounded-xl border border-gray-100 bg-gray-50 hover:-translate-y-1 hover:shadow-lg hover:border-accent-300 hover:bg-white transition-all duration-300 group"
+              className="w-full md:w-[calc(33.333%-11px)] block p-5 rounded-xl border border-white/50 shadow-md bg-white/95 backdrop-blur-sm hover:-translate-y-1 hover:shadow-xl hover:border-accent-300 hover:bg-white transition-all duration-300 group"
             >
               <h4 className="text-lg font-serif font-bold text-primary-800 mb-2 group-hover:text-accent-600 transition-colors">SOMACHI</h4>
               <p className="text-sm text-gray-500 flex items-center gap-2">
                 <Calendar size={14} className="text-gray-400" />
                 7 – 12 September 2026, Wrocław
               </p>
-            </motion.a>
+            </a>
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 relative overflow-hidden border-t border-gray-200/50">
+        {/* Nakładka szara (95% szarości + rozmycie) */}
+        <div className="absolute inset-0 z-0 bg-gray-50/95 backdrop-blur-[4px]" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           {/* Sponsors */}
           <div className="mb-20">
@@ -588,20 +650,16 @@ const HomePage = () => {
               <h2 className="text-2xl font-serif text-gray-500 uppercase tracking-widest">Sponsors</h2>
             </div>
             
-            <div className="flex flex-wrap justify-center items-center gap-6 lg:gap-8">
+            <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
               {sponsors.map((sponsor, idx) => (
-                <motion.a 
+                <a 
                   key={idx} 
                   href={sponsor.url} 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="group relative flex flex-col items-center justify-between w-64 lg:w-[280px] h-56 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-lg hover:border-accent-300 hover:-translate-y-1"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="group relative flex flex-col items-center justify-between aspect-square sm:aspect-[4/3] bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 p-3 sm:p-6 transition-all duration-300 hover:shadow-lg hover:border-accent-300 hover:-translate-y-1"
                 >
-                  <div className="w-full h-32 flex items-center justify-center mb-4">
+                  <div className="w-full flex-1 flex items-center justify-center mb-2 sm:mb-4 min-h-0">
                     <img 
                       src={sponsor.logo} 
                       alt={sponsor.name.replace('\n', ' ')} 
@@ -613,11 +671,23 @@ const HomePage = () => {
                       }}
                     />
                     <div className="hidden flex-col items-center justify-center text-gray-200">
-                      <Building2 size={40} />
+                      <Building2 className="w-6 h-6 sm:w-10 sm:h-10" />
                     </div>
                   </div>
-                  <span className="text-lg font-serif font-bold text-primary-900 text-center leading-tight whitespace-pre-line group-hover:text-accent-600 transition-colors">{sponsor.name}</span>
-                </motion.a>
+                  <span className="text-[10px] sm:text-sm md:text-lg font-serif font-bold text-primary-900 text-center leading-tight group-hover:text-accent-600 transition-colors">
+                    {sponsor.name.split('\n').map((part, i, arr) => (
+                      <React.Fragment key={i}>
+                        {part}
+                        {i < arr.length - 1 && (
+                          <>
+                            <br className="block lg:hidden" />
+                            <span className="hidden lg:inline"> </span>
+                          </>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </span>
+                </a>
               ))}
             </div>
           </div>
@@ -628,20 +698,16 @@ const HomePage = () => {
               <h2 className="text-2xl font-serif text-gray-500 uppercase tracking-widest">Partners</h2>
             </div>
             
-            <div className="flex flex-wrap justify-center items-center gap-6 lg:gap-8">
+            <div className="flex justify-center gap-3 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
               {partners.map((partner, idx) => (
-                <motion.a 
+                <a 
                   key={idx} 
                   href={partner.url} 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="group relative flex flex-col items-center justify-between w-64 lg:w-[280px] h-56 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 transition-all duration-300 hover:shadow-lg hover:border-accent-300 hover:-translate-y-1"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="group relative flex flex-col items-center justify-between w-[32%] min-w-[110px] sm:min-w-[220px] max-w-[280px] aspect-square sm:aspect-[4/3] bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 p-3 sm:p-6 transition-all duration-300 hover:shadow-lg hover:border-accent-300 hover:-translate-y-1"
                 >
-                  <div className="w-full h-32 flex items-center justify-center mb-4">
+                  <div className="w-full flex-1 flex items-center justify-center mb-2 sm:mb-4 min-h-0">
                     <img 
                       src={partner.logo} 
                       alt={partner.name.replace('\n', ' ')} 
@@ -653,11 +719,23 @@ const HomePage = () => {
                       }}
                     />
                     <div className="hidden flex-col items-center justify-center text-gray-200">
-                      <Building2 size={40} />
+                      <Building2 className="w-6 h-6 sm:w-10 sm:h-10" />
                     </div>
                   </div>
-                  <span className="text-lg font-serif font-bold text-primary-900 text-center leading-tight whitespace-pre-line group-hover:text-accent-600 transition-colors">{partner.name}</span>
-                </motion.a>
+                  <span className="text-[10px] sm:text-sm md:text-lg font-serif font-bold text-primary-900 text-center leading-tight group-hover:text-accent-600 transition-colors">
+                    {partner.name.split('\n').map((part, i, arr) => (
+                      <React.Fragment key={i}>
+                        {part}
+                        {i < arr.length - 1 && (
+                          <>
+                            <br className="block lg:hidden" />
+                            <span className="hidden lg:inline"> </span>
+                          </>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </span>
+                </a>
               ))}
             </div>
           </div>
@@ -670,7 +748,8 @@ const HomePage = () => {
 
 const RegistrationPage = () => {
   return (
-    <main className="flex-grow bg-gray-50 pb-24">
+    <main className="flex-grow relative pb-24">
+      <div className="absolute inset-0 z-[-1] bg-gray-50/90 backdrop-blur-[3px]" />
       <PageHeader title="Registration" subtitle="Join the XIV Forum of Partial Differential Equations" />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
         <motion.div 
@@ -885,7 +964,8 @@ const ParticipantsPage = () => {
   };
 
   return (
-    <main className="flex-grow bg-gray-50 pb-24">
+    <main className="flex-grow relative pb-24">
+      <div className="absolute inset-0 z-[-1] bg-gray-50/90 backdrop-blur-[3px]" />
       <PageHeader title="Participants" subtitle="List of registered attendees" />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
         <motion.div 
@@ -1092,7 +1172,8 @@ const ProgramPage = () => {
   const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
   return (
-    <main className="flex-grow bg-gray-50 pb-24">
+    <main className="flex-grow relative pb-24">
+      <div className="absolute inset-0 z-[-1] bg-gray-50/90 backdrop-blur-[3px]" />
       <PageHeader title="Programme & Abstracts" subtitle="Schedule and submissions" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
         <motion.div 
@@ -1281,18 +1362,33 @@ const ScientificCommitteePage = () => {
   ];
 
   return (
-    <main className="flex-grow bg-gray-50 pb-24">
+    <main className="flex-grow relative pb-24">
+      <div className="absolute inset-0 z-[-1] bg-gray-50/90 backdrop-blur-[3px]" />
       <PageHeader title="Scientific Committee" />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-        <div className="flex flex-wrap justify-center gap-6">
+        <motion.div 
+          className="flex flex-wrap justify-center gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.05
+              }
+            }
+          }}
+        >
           {members.map((member, idx) => (
             <motion.div 
               key={idx}
               className="w-full md:w-[calc(50%-12px)]"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.05 }}
+              variants={{
+                hidden: { opacity: 0, y: 10 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
             >
               <a 
                 href={member.url}
@@ -1304,7 +1400,7 @@ const ScientificCommitteePage = () => {
                   <GraduationCap size={24} />
                 </div>
                 <div className="flex-grow">
-                  <h4 className="text-lg font-serif font-bold text-primary-900">{member.name}</h4>
+                  <h4 className="text-lg font-serif font-bold text-primary-900 group-hover:text-accent-600 transition-colors">{member.name}</h4>
                   <p className="text-gray-600 text-sm mt-1 mb-3">{member.affiliation}</p>
                   <span className="inline-flex items-center text-sm font-medium text-accent-600 group-hover:text-accent-700 transition-colors">
                     Website <ExternalLink size={14} className="ml-1" />
@@ -1313,7 +1409,7 @@ const ScientificCommitteePage = () => {
               </a>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </main>
   );
@@ -1321,24 +1417,39 @@ const ScientificCommitteePage = () => {
 
 const OrganizingCommitteePage = () => {
   const members = [
-    { name: "Jarosław Mederski", affiliation: "Polish Academy of Sciences (IMPAN)", url: "https://jmederski.impan.pl/" },
-    { name: "Bartosz Bieganowski", affiliation: "University of Warsaw", url: "https://mimuw.edu.pl/~bartoszb/" },
-    { name: "Szymon Cygan", affiliation: "University of Wrocław", url: "https://scygan.math.uni.wroc.pl/" }
+    { name: "Jarosław Mederski", affiliation: "Polish Academy of Sciences (IMPAN)", url: "https://jmederski.impan.pl/", image: "" },
+    { name: "Bartosz Bieganowski", affiliation: "University of Warsaw", url: "https://mimuw.edu.pl/~bartoszb/", image: "" },
+    { name: "Szymon Cygan", affiliation: "University of Wrocław", url: "https://scygan.math.uni.wroc.pl/", image: "" }
   ];
 
   return (
-    <main className="flex-grow bg-gray-50 pb-24">
+    <main className="flex-grow relative pb-24">
+      <div className="absolute inset-0 z-[-1] bg-gray-50/90 backdrop-blur-[3px]" />
       <PageHeader title="Organizing Committee" />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-        <div className="flex flex-wrap justify-center gap-8">
+        <motion.div 
+          className="flex flex-wrap justify-center gap-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+        >
           {members.map((member, idx) => (
             <motion.div 
               key={idx}
               className="w-full sm:w-[calc(50%-16px)] lg:w-[calc(33.333%-21.33px)]"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
+              variants={{
+                hidden: { opacity: 0, y: 10 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
             >
               <a
                 href={member.url}
@@ -1346,10 +1457,14 @@ const OrganizingCommitteePage = () => {
                 rel="noreferrer"
                 className="block h-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-accent-300 cursor-pointer group"
               >
-                <div className="w-16 h-16 mx-auto bg-accent-50 rounded-full flex items-center justify-center text-accent-600 mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent-100">
-                  <Users size={32} />
+                <div className="w-24 h-24 mx-auto bg-accent-50 rounded-full flex items-center justify-center text-accent-600 mb-6 transition-transform duration-300 group-hover:scale-105 group-hover:bg-accent-100 overflow-hidden border-2 border-transparent group-hover:border-accent-200">
+                  {member.image ? (
+                    <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <Users size={32} />
+                  )}
                 </div>
-                <h4 className="text-xl font-serif font-bold text-primary-900 mb-2">{member.name}</h4>
+                <h4 className="text-xl font-serif font-bold text-primary-900 mb-2 group-hover:text-accent-600 transition-colors">{member.name}</h4>
                 <p className="text-gray-600 text-sm mb-4">{member.affiliation}</p>
                 <span className="inline-flex items-center text-sm font-medium text-accent-600 group-hover:text-accent-700 transition-colors">
                   Website <ExternalLink size={14} className="ml-1" />
@@ -1357,7 +1472,7 @@ const OrganizingCommitteePage = () => {
               </a>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
         
         <div className="mt-16 text-center">
           <p className="text-gray-600">
@@ -1386,7 +1501,17 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col font-sans text-gray-900 selection:bg-accent-500 selection:text-white">
+      <div className="min-h-screen flex flex-col font-sans text-gray-900 selection:bg-accent-500 selection:text-white relative">
+        {/* Globalne stałe tło z efektem paralaksy dla całej aplikacji */}
+        <div 
+          className="fixed inset-0 z-[-2]"
+          style={{
+            backgroundImage: 'url("https://lh3.googleusercontent.com/d/1Ryr8EP7S9YS6N1jzYwltiNyP-t9kg7eH")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+          }}
+        />
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
