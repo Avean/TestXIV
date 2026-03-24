@@ -1499,7 +1499,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <Router>
+    <Router basename="/TestXIV">
       <ScrollToTop />
       <div className="min-h-screen flex flex-col font-sans text-gray-900 selection:bg-accent-500 selection:text-white relative">
         {/* Globalne stałe tło z efektem paralaksy dla całej aplikacji */}
