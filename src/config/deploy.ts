@@ -8,7 +8,7 @@
 export const deployConfig = {
   // Nazwa repozytorium na GitHubie (np. 'moje-repo')
   // Jeśli publikujesz na domenie głównej (username.github.io), zostaw pusty ciąg znaków: ''
-  repoName: 'forum-pde',
+  repoName: 'TestXIV',
   
   // Czy aplikacja jest budowana pod GitHub Pages?
   isGitHubPages: true,
