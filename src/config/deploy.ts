@@ -13,7 +13,7 @@ export const deployConfig = {
   // Czy aplikacja jest budowana pod GitHub Pages?
   // UWAGA: Zmień na TRUE tuż przed zrobieniem commita i pusha na GitHuba!
   // Do testowania w AI Studio lub lokalnie zostaw FALSE.
-  isGitHubPages: false,
+  isGitHubPages: true,
   
   // Obliczona ścieżka bazowa (base path)
   get basePath() {
