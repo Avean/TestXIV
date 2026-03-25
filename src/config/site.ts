@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "XIV FPDE",
   fullName: "XIV Forum of Partial Differential Equations",
-  dates: "13 – 19 September 2026",
+  dates: "14 – 18 September 2026",
   location: "Będlewo Conference Center, Poland",
   contactEmail: "xivforum@impan.pl",
   lastUpdate: "March 2026",
@@ -34,8 +34,8 @@ export const siteConfig = {
     registration: "TBA",
     abstracts: "TBA"
   },
-  conferenceStartDate: "2026-09-13T09:00:00",
-  conferenceStartDateString: "13 September 2026, 9:00",
+  conferenceStartDate: "2026-09-14T09:00:00",
+  conferenceStartDateString: "14 September 2026, 9:00",
 
   payment: {
     bankName: "Bank Gospodarstwa Krajowego",
