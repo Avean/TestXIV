@@ -1,7 +1,7 @@
 # XIV Forum of Partial Differential Equations (XIV FPDE)
 
 📍 Będlewo Conference Center, Poland  
-📅 13–19 September 2026  
+📅 13–19 September 2026 a
 
 ---
 
